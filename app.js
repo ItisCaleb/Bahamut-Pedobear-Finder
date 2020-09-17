@@ -126,7 +126,9 @@ function calculatePedoBear(idSet){
         })
 }
 
-
+app.get('/',async (req, res) => {
+     res.send('這裡沒有任何東西');
+})
 app.get('/:id',async (req, res) => {
      const json = fs.readFileSync(__dirname+'/summary.json','utf-8')
      const noimage = fs.readFileSync(__dirname+'/cry.jpg')
@@ -134,9 +136,6 @@ app.get('/:id',async (req, res) => {
      if(obj == null) return res.status(404).end(noimage,'binary')
      const image = await writeImage(obj.total,obj.pedo)
      res.end(image,'binary')
-
-
-
 })
 
 
