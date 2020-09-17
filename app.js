@@ -132,7 +132,7 @@ app.get('/',async (req, res) => {
 app.get('/:id',async (req, res) => {
      const json = fs.readFileSync(__dirname+'/summary.json','utf-8')
      const noimage = fs.readFileSync(__dirname+'/cry.jpg')
-     const obj = JSON.parse(json)[req.params.id]
+     const obj = JSON.parse(json)[req.params.id.replace('.png','')]
      if(obj == null) return res.status(404).end(noimage,'binary')
      const image = await writeImage(obj.total,obj.pedo)
      res.end(image,'binary')
