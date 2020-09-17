@@ -9,6 +9,9 @@ const {until,By} = require("selenium-webdriver");
 const Jimp = require('jimp');
 const axios = require('axios');
 const spawn = require('child_process').spawn;
+const ejs = require('ejs');
+
+app.set('view engine', 'ejs')
 
 chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
@@ -40,9 +43,9 @@ const driver = new webdriver.Builder()
 
 
 
-async function writeImage(total, pedo) {
+async function writeJPG(total, pedo) {
     const font = await Jimp.loadFont(__dirname + '/font/TaipeiSansTCBeta-Bold.fnt');
-    const image = await Jimp.read(__dirname + '/pedobear.jpg');
+    const image = await Jimp.read(__dirname + '/0.jpg');
     image.print(font, 0, 350, "這串共有"+total+"個巴友");
     image.print(font, 0, 400, "其中有大約"+pedo+"個熊頭");
     if(pedo >= total/3) image.print(font, 0, 450, "FBI正在密切關注這個討論串");
@@ -55,6 +58,10 @@ async function writeImage(total, pedo) {
           console.log(err)
         });
 }
+function writeSVG(total, pedo){
+
+}
+
 async function getCard(id){
     return axios.get(`https://avatar2.bahamut.com.tw/avataruserpic/${id[0]}/${id[1]}/${id}/${id}.png`,
         {
@@ -129,15 +136,41 @@ function calculatePedoBear(idSet){
 app.get('/',async (req, res) => {
      res.send('這裡沒有任何東西');
 })
-app.get('/:id',async (req, res) => {
+app.get('/jpg/:id',async (req, res) => {
      const json = fs.readFileSync(__dirname+'/summary.json','utf-8')
-     const noimage = fs.readFileSync(__dirname+'/cry.jpg')
-     const obj = JSON.parse(json)[req.params.id.replace('.png','')]
+     const noimage = fs.readFileSync(__dirname+'/1.jpg')
+     const obj = JSON.parse(json)[req.params.id.split('.')[0]]
      if(obj == null) return res.status(404).end(noimage,'binary')
-     const image = await writeImage(obj.total,obj.pedo)
+     const image = await writeJPG(obj.total,obj.pedo)
      res.end(image,'binary')
 })
+function getRandomInt(max) {
+         return Math.floor(Math.random() * Math.floor(max));
+     }
+app.get('/svg/:id',async (req, res) => {
+     const json = fs.readFileSync(__dirname+'/summary.json','utf-8')
+     const int = getRandomInt(3)
+     const image = fs.readFileSync(__dirname+`/${int}.jpg`).toString('base64')
+     const noimage = fs.readFileSync(__dirname+'/1.jpg')
+     const obj = JSON.parse(json)[req.params.id.split('.')[0]]
+     if(obj == null) return res.status(404).end(noimage,'binary')
+     res.header('Content-Type', 'image/svg+xml');
+     res.render('svg',{
+         img: image,
+         total:obj.total,
+         pedo:obj.pedo,
+         text:(obj.pedo>=obj.total/3)?'這裡正在被FBI關注':'這裡十分正常'
+     })
+})
 
+
+// error handler
+app.use(function (req,res) {
+    // render the error page
+    const noimage = fs.readFileSync(__dirname+'/1.jpg')
+    res.status(404);
+    res.end(noimage,'binary')
+});
 
 app.listen(2000,()=>{
     console.log('server start')

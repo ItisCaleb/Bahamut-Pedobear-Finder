@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" baseProfile="tiny" x="0px" y="0px" viewBox="0 0 660 125" overflow="scroll" xml:space="preserve">
+	<defs>
+		<clipPath id="c1">
+			<circle  r="250" cx="50%" cy="50%"></circle>
+		</clipPath>
+
+	</defs>
+	<g id="p2">
+		<image width="450" clip-path="url(#c1)" height="450" x="12%" y="-110%" xlink:href="data:image/jpeg;base64,<%=img%>"/>
+		<text x="25%" y="-50%" fill="#FFF" font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 34px;">這裡有總共有<%=total%>位巴友</text>
+		<text x="25%" y="-20%" fill="#FFF" font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 34px;">其中大約有<%=pedo%>隻熊頭</text>
+		<text <%if(text==='這裡正在被FBI關注' ){%>
+			fill="#EA0000"
+		<%}else {%>
+			fill="#FFF"
+		<%}%> x="25%" y="10%"  font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 34px;"><%=text%></text>
+	</g>
+	<g id="p1">
+		<circle fill="none" stroke="#000000"  stroke-width="8" r="250" cx="50%" cy="50%"></circle>
+	</g>
+
+
+
+</svg>
