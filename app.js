@@ -11,8 +11,8 @@ const axios = require('axios');
 const spawn = require('child_process').spawn;
 const ejs = require('ejs');
 
-app.set('view engine', 'ejs')
-
+app.set('view engine', 'ejs');
+app.set('etag',false);
 chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
 const driver = new webdriver.Builder()
