@@ -12,6 +12,12 @@ const spawn = require('child_process').spawn;
 const ejs = require('ejs');
 
 app.set('view engine', 'ejs')
+app.use(function (req, res, next) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next()
+});
 
 chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
@@ -58,10 +64,6 @@ async function writeJPG(total, pedo) {
           console.log(err)
         });
 }
-function writeSVG(total, pedo){
-
-}
-
 async function getCard(id){
     return axios.get(`https://avatar2.bahamut.com.tw/avataruserpic/${id[0]}/${id[1]}/${id}/${id}.png`,
         {
@@ -155,7 +157,6 @@ app.get('/svg/:id',async (req, res) => {
      const obj = JSON.parse(json)[req.params.id.split('.')[0]]
      if(obj == null) return res.status(404).end(noimage,'binary')
      res.header('Content-Type', 'image/svg+xml');
-     res.header('Cache-Control', ' no-cache');
      res.status(200).render('svg',{
          img: image,
          total:obj.total,
