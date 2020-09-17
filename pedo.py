@@ -4,10 +4,6 @@ import sys
 import base64
 
 
-def touint8(image):
-    return np.uint8(np.absolute(image))
-
-
 def show(image):
     cv2.imshow('test', image)
     cv2.waitKey(0)
@@ -48,6 +44,3 @@ if len(headgood) == 2:
 else:
     print(len(headgood))
     sys.stdout.flush()
-
-
-
