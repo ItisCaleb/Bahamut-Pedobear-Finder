@@ -1,22 +1,26 @@
+
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" baseProfile="tiny" x="0px" y="0px" viewBox="0 0 660 125" overflow="scroll" xml:space="preserve">
 	<defs>
 		<clipPath id="c1">
-			<circle  r="250" cx="50%" cy="50%"></circle>
+			<circle  r="53" cx="88%" cy="50%"></circle>
 		</clipPath>
-
 	</defs>
+	<g>
+		<rect height="125"  width="660" fill="#8CEA00" stroke="#000" stroke-width="8"></rect>
+	</g>
+	<g id="p1">
+		<circle fill="#FFF" stroke="#EAC100"  stroke-width="4" r="55" cx="88%" cy="50%"></circle>
+		<image width="100" clip-path="url(#c1)"  height="120" x="80%" y="15%" xlink:href="data:image/jpeg;base64,<%=img%>"/>
+	</g>
 	<g id="p2">
-		<image width="450" clip-path="url(#c1)" height="450" x="12%" y="-110%" xlink:href="data:image/jpeg;base64,<%=img%>"/>
-		<text x="25%" y="-50%" fill="#FFF" font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 34px;">這裡有總共有<%=total%>位巴友</text>
-		<text x="25%" y="-20%" fill="#FFF" font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 34px;">其中大約有<%=pedo%>隻熊頭</text>
+
+		<text x="5%" y="30%" fill="#FFF" font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 25px;">這裡有總共有<%=total%>位巴友</text>
+		<text x="5%" y="60%" fill="#FFF" font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 25px;">其中大約有<%=pedo%>隻熊頭</text>
 		<text <%if(text==='這裡正在被FBI關注' ){%>
 			fill="#EA0000"
 		<%}else {%>
 			fill="#FFF"
-		<%}%> x="25%" y="10%"  font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 34px;"><%=text%></text>
-	</g>
-	<g id="p1">
-		<circle fill="none" stroke="#000000"  stroke-width="8" r="250" cx="50%" cy="50%"></circle>
+		<%}%> x="5%" y="90%"  font-weight="bolder" stroke="#000" font-family="Microsoft JhengHei" style="font-size: 25px;"><%=text%></text>
 	</g>
 
 
