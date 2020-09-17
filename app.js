@@ -142,7 +142,7 @@ app.get('/jpg/:id',async (req, res) => {
      const obj = JSON.parse(json)[req.params.id.split('.')[0]]
      if(obj == null) return res.status(404).end(noimage,'binary')
      const image = await writeJPG(obj.total,obj.pedo)
-     res.end(image,'binary')
+     res.status(200).end(image,'binary')
 })
 function getRandomInt(max) {
          return Math.floor(Math.random() * Math.floor(max));
@@ -155,7 +155,7 @@ app.get('/svg/:id',async (req, res) => {
      const obj = JSON.parse(json)[req.params.id.split('.')[0]]
      if(obj == null) return res.status(404).end(noimage,'binary')
      res.header('Content-Type', 'image/svg+xml');
-     res.render('svg',{
+     res.status(200).render('svg',{
          img: image,
          total:obj.total,
          pedo:obj.pedo,
