@@ -155,6 +155,7 @@ app.get('/svg/:id',async (req, res) => {
      const obj = JSON.parse(json)[req.params.id.split('.')[0]]
      if(obj == null) return res.status(404).end(noimage,'binary')
      res.header('Content-Type', 'image/svg+xml');
+     res.header('Cache-Control', ' no-cache');
      res.status(200).render('svg',{
          img: image,
          total:obj.total,
