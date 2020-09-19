@@ -118,8 +118,9 @@ function calculatePedoBear(idSet){
                 let pedo=0;
                 let sum=0;
                 for(let user of idSet){
-                    const process = spawn('python',['pedo.py'])
-                    process.stdout.on('data',(data)=>{
+                    try{
+                       const process = spawn('python',['pedo.py'])
+                        process.stdout.on('data',(data)=>{
                         data = parseInt(data);
                         if(data>2){
                             pedo++;
@@ -130,8 +131,12 @@ function calculatePedoBear(idSet){
                             resolve(pedo)
                         }
                     })
-                    process.stdin.write(await getCard(user))
-                    process.stdin.end()
+                        process.stdin.write(await getCard(user))
+                        process.stdin.end()
+                    }catch (err){
+                        console.log(err)
+                    }
+
                 }
 
 
