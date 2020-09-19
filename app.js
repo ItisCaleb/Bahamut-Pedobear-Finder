@@ -1,11 +1,7 @@
 const app = require('express')();
 const cheerio = require('cheerio');
-const webdriver = require('selenium-webdriver');
 const fs = require('fs');
 const CronJob = require('cron').CronJob;
-const chrome = require('selenium-webdriver/chrome');
-const chromedriver = require('chromedriver');
-const {until,By} = require("selenium-webdriver");
 const Jimp = require('jimp');
 const axios = require('axios');
 const spawn = require('child_process').spawn;
@@ -18,11 +14,7 @@ app.use(function (req, res, next) {
     next()
 });
 
-chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
-const driver = new webdriver.Builder()
-    .withCapabilities(webdriver.Capabilities.chrome())
-    .build();
 
  new CronJob('*/120 * * * * *',async ()=>{
         let url = JSON.parse(fs.readFileSync(__dirname+'/url.json','utf8')) ;
@@ -80,19 +72,13 @@ async function getUser(url){
     return new Promise(async (resolve,reject)=>{
          try {
             let blacklist = JSON.parse(fs.readFileSync(__dirname+'/blacklist.json','utf8')) ;
-                await driver.get(url);
-                const pageSource = await driver
-                    .wait(until.elementLocated(By.css('body')), 100)
-                    .getAttribute('innerHTML');
+                const pageSource = (await axios.get(url)).data
                 let $ = cheerio.load(pageSource);
                 const page = $('.BH-pagebtnA').last().children('a').last().text();
                 const idSet = new Set();
                 for (let n=1;n<=page;n++){
                     if(n!==1){
-                        await driver.get(url+`&page=${n}`);
-                        const thisPage = await driver
-                            .wait(until.elementLocated(By.css('body')), 100)
-                            .getAttribute('innerHTML');
+                        let thisPage = (await axios.get(url+`&page=${n}`)).data
                         $ = cheerio.load(thisPage);
                     }
                     const img = $('.gamercard')
