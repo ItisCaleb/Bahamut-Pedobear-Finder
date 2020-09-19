@@ -1,7 +1,7 @@
 const app = require('express')();
 const cheerio = require('cheerio');
 const fs = require('fs');
-const CronJob = require('cron').CronJob;
+const cron = require('node-cron');
 const Jimp = require('jimp');
 const axios = require('axios');
 const spawn = require('child_process').spawn;
@@ -14,10 +14,8 @@ app.use(function (req, res, next) {
     next()
 });
 
-
-
- new CronJob('*/120 * * * * *',async ()=>{
-        let url = JSON.parse(fs.readFileSync(__dirname+'/url.json','utf8')) ;
+async function getAllThePedo(){
+    let url = JSON.parse(fs.readFileSync(__dirname+'/url.json','utf8')) ;
         if(url.length===0) return
         for(let i=0;i<url.length;i++){
             let idSet = await getUser(url[i])
@@ -37,7 +35,10 @@ app.use(function (req, res, next) {
                 })
         }
 
-},null,true).start()
+}
+getAllThePedo()
+
+cron.schedule('*/6 * * * *',getAllThePedo, {timezone: "Asia/Taipei"}).start();
 
 
 
