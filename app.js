@@ -16,23 +16,23 @@ app.use(function (req, res, next) {
 
 async function getAllThePedo(){
     let url = JSON.parse(fs.readFileSync(__dirname+'/url.json','utf8')) ;
-        if(url.length===0) return
-        for(let i=0;i<url.length;i++){
-            let idSet = await getUser(url[i])
-            calculatePedoBear(idSet)
-                .then((pedo)=>{
-                    let data = fs.readFileSync(__dirname+'/summary.json','utf8')
-                    console.log("writing result...")
-                    let obj={
-                        url:url[i],
-                        total:idSet.size,
-                        pedo:pedo
-                    }
-                    data = JSON.parse(data)
-                    data[i] = (obj)
-                    let json = JSON.stringify(data)
-                    fs.writeFileSync(__dirname+'/summary.json',json,'utf8')
-                })
+    if(url.length===0) return
+    for(let i=0;i<url.length;i++){
+        if(url[i].start ===false) continue;
+        let idSet = await getUser(url[i].url)
+        calculatePedoBear(idSet)
+            .then((pedo)=>{
+                console.log("writing result...")
+                url[i] = {
+                    url: url[i].url,
+                    start: url[i].start,
+                    total: idSet.size,
+                    pedo: pedo
+                }
+                let json = JSON.stringify(url)
+                fs.writeFileSync(__dirname+'/url.json',json,'utf8')
+                console.log('write complete!')
+            })
         }
 
 }
@@ -105,9 +105,6 @@ function calculatePedoBear(idSet){
                 let sum=0;
                 for(let user of idSet){
                     const process = spawn('python',['pedo.py'])
-                    process.stderr.on('data',(err)=>{
-                        console.log(err.toString())
-                    })
                     process.stdout.on('data',(data)=>{
                         data = parseInt(data);
                         if(data>2){
