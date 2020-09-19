@@ -33,6 +33,7 @@ const driver = new webdriver.Builder()
             calculatePedoBear(idSet)
                 .then((pedo)=>{
                     let data = fs.readFileSync(__dirname+'/summary.json','utf8')
+                    console.log("writing result...")
                     let obj={
                         url:url[i],
                         total:idSet.size,
@@ -103,6 +104,7 @@ async function getUser(url){
                         }
                     })
                 }
+                console.log('getUser success!')
                 resolve(idSet)
         }catch (err){
             console.log(err)
@@ -124,6 +126,7 @@ function calculatePedoBear(idSet){
                         }
                         sum++
                         if(sum === idSet.size-1){
+                            console.log('calculate complete!')
                             resolve(pedo)
                         }
                     })
