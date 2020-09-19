@@ -129,7 +129,7 @@ app.get('/',async (req, res) => {
      res.send('這裡沒有任何東西');
 })
 app.get('/jpg/:id',async (req, res) => {
-     const json = fs.readFileSync(__dirname+'/summary.json','utf-8')
+     const json = fs.readFileSync(__dirname+'/url.json','utf-8')
      const noimage = fs.readFileSync(__dirname+'/1.jpg')
      const obj = JSON.parse(json)[req.params.id.split('.')[0]]
      if(obj == null) return res.status(404).end(noimage,'binary')
