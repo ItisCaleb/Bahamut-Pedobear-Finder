@@ -105,6 +105,7 @@ async function getUser(url){
                 }
                 resolve(idSet)
         }catch (err){
+            console.log(err)
             reject(err)
         }
     })
