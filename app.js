@@ -119,9 +119,12 @@ function calculatePedoBear(idSet){
                 let sum=0;
                 for(let user of idSet){
                     const process = spawn('python',['pedo.py'])
-                    process.stdout.on('error',(err)=>{
+                    process.stderr.on('data',(err)=>{
                         console.log(err)
                     })
+                    process.on('exit', function(code) {
+                        console.log("Exited with code " + code);
+                    });
                     process.stdout.on('data',(data)=>{
                         data = parseInt(data);
                         if(data>2){
