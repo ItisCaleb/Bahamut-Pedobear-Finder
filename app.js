@@ -9,7 +9,6 @@ const {until,By} = require("selenium-webdriver");
 const Jimp = require('jimp');
 const axios = require('axios');
 const spawn = require('child_process').spawn;
-const ejs = require('ejs');
 
 app.set('view engine', 'ejs')
 app.use(function (req, res, next) {
@@ -120,11 +119,8 @@ function calculatePedoBear(idSet){
                 for(let user of idSet){
                     const process = spawn('python',['pedo.py'])
                     process.stderr.on('data',(err)=>{
-                        console.log(err)
+                        console.log(err.toString())
                     })
-                    process.on('exit', function(code) {
-                        console.log("Exited with code " + code);
-                    });
                     process.stdout.on('data',(data)=>{
                         data = parseInt(data);
                         if(data>2){
