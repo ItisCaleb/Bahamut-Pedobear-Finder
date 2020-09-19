@@ -18,7 +18,7 @@ def base64_to_cv2(code):
 
 head = cv2.imread('pedohead.png', cv2.IMREAD_GRAYSCALE)
 mark = cv2.imread('pedomark.png', cv2.IMREAD_GRAYSCALE)
-user = base64_to_cv2(sys.stdin.read())
+user = base64_to_cv2(sys.stdin.readline())
 sift = cv2.SIFT_create()
 kp1, des1 = sift.detectAndCompute(head, None)
 kp2, des2 = sift.detectAndCompute(mark, None)
