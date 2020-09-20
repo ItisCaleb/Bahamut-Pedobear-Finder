@@ -24,7 +24,7 @@ async function getAllThePedo(){
                     total: idSet.size,
                     pedo: pedo
                 }
-                let json = JSON.stringify(url)
+                let json = JSON.stringify(url,null,4)
                 fs.writeFileSync(__dirname+'/url.json',json,'utf8')
                 console.log('write complete!')
             })
