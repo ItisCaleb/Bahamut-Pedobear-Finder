@@ -7,12 +7,7 @@ const axios = require('axios');
 const spawn = require('child_process').spawn;
 
 app.set('view engine', 'ejs')
-app.use(function (req, res, next) {
-    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.header('Expires', '-1');
-    res.header('Pragma', 'no-cache');
-    next()
-});
+
 
 async function getAllThePedo(){
     let url = JSON.parse(fs.readFileSync(__dirname+'/url.json','utf8')) ;
@@ -157,12 +152,13 @@ app.get('/svg/:id',async (req, res) => {
 
 
 // error handler
-app.use(function (req,res) {
+app.use(function (err,req,res,next) {
     // render the error page
     const noimage = fs.readFileSync(__dirname+'/1.jpg')
     res.status(404);
     res.end(noimage,'binary')
 });
+
 
 app.listen(2000,()=>{
     console.log('server start')
